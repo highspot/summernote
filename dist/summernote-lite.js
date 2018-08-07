@@ -1,11 +1,11 @@
 /**
- * Super simple wysiwyg editor v0.8.10-hs.0
+ * Super simple wysiwyg editor v0.8.11-hs.0
  * https://summernote.org
  *
  * Copyright 2013- Alan Hong. and other contributors
  * summernote may be freely distributed under the MIT license.
  *
- * Date: 2018-08-07T17:29Z
+ * Date: 2018-08-07T17:34Z
  */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('jquery')) :
@@ -2913,9 +2913,16 @@ var WrappedRange = /** @class */ (function () {
         var contentsContainer = $$1('<div></div>').html(markup)[0];
         var childNodes = lists.from(contentsContainer.childNodes);
         var rng = this.wrapBodyInlineWithPara().deleteContents();
-        return childNodes.reverse().map(function (childNode) {
+        if (rng.so > 0) {
+            childNodes = childNodes.reverse();
+        }
+        childNodes = childNodes.map(function (childNode) {
             return rng.insertNode(childNode);
-        }).reverse();
+        });
+        if (rng.so > 0) {
+            childNodes = childNodes.reverse();
+        }
+        return childNodes;
     };
     /**
      * returns text in range
@@ -4775,7 +4782,7 @@ var Editor = /** @class */ (function () {
      * insertImages
      * @param {File[]} files
      */
-    Editor.prototype.insertImages = function (files) {
+    Editor.prototype.insertImagesAsDataURL = function (files) {
         var _this = this;
         $$1.each(files, function (idx, file) {
             var filename = file.name;
@@ -4790,21 +4797,6 @@ var Editor = /** @class */ (function () {
                 });
             }
         });
-    };
-    /**
-     * insertImagesOrCallback
-     * @param {File[]} files
-     */
-    Editor.prototype.insertImagesOrCallback = function (files) {
-        var callbacks = this.options.callbacks;
-        // If onImageUpload this.options setted
-        if (callbacks.onImageUpload) {
-            this.context.triggerEvent('image.upload', files);
-            // else insert Image as dataURL
-        }
-        else {
-            this.insertImages(files);
-        }
     };
     /**
      * return selected plain text
@@ -6672,10 +6664,23 @@ var ImageDialog = /** @class */ (function () {
             _this.ui.hideDialog(_this.$dialog);
             _this.context.invoke('editor.restoreRange');
             if (typeof data === 'string') { // image url
-                _this.context.invoke('editor.insertImage', data);
+                // If onImageLinkInsert set,
+                if (_this.options.callbacks.onImageLinkInsert) {
+                    _this.context.triggerEvent('image.link.insert', data);
+                }
+                else {
+                    _this.context.invoke('editor.insertImage', data);
+                }
             }
             else { // array of files
-                _this.context.invoke('editor.insertImagesOrCallback', data);
+                // If onImageUpload set,
+                if (_this.options.callbacks.onImageUpload) {
+                    _this.context.triggerEvent('image.upload', data);
+                }
+                else {
+                    // else insert Image as dataURL
+                    _this.context.invoke('editor.insertImagesAsDataURL', data);
+                }
             }
         }).fail(function () {
             _this.context.invoke('editor.restoreRange');
@@ -6876,7 +6881,8 @@ var VideoDialog = /** @class */ (function () {
     };
     VideoDialog.prototype.createVideoNode = function (url) {
         // video url patterns(youtube, instagram, vimeo, dailymotion, youku, mp4, ogg, webm)
-        var ytRegExp = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+        var ytRegExp = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w|-]{11})(?:(?:[\?&]t=)(\S+))?$/;
+        var ytRegExpForStart = /^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?$/;
         var ytMatch = url.match(ytRegExp);
         var igRegExp = /(?:www\.|\/\/)instagram\.com\/p\/(.[a-zA-Z0-9_-]*)/;
         var igMatch = url.match(igRegExp);
@@ -6901,9 +6907,18 @@ var VideoDialog = /** @class */ (function () {
         var $video;
         if (ytMatch && ytMatch[1].length === 11) {
             var youtubeId = ytMatch[1];
+            var start = 0;
+            if (typeof ytMatch[2] !== 'undefined') {
+                var ytMatchForStart = ytMatch[2].match(ytRegExpForStart);
+                if (ytMatchForStart) {
+                    for (var n = [3600, 60, 1], i = 0, r = n.length; i < r; i++) {
+                        start += (typeof ytMatchForStart[i + 1] !== 'undefined' ? n[i] * parseInt(ytMatchForStart[i + 1], 10) : 0);
+                    }
+                }
+            }
             $video = $$1('<iframe>')
                 .attr('frameborder', 0)
-                .attr('src', '//www.youtube.com/embed/' + youtubeId)
+                .attr('src', '//www.youtube.com/embed/' + youtubeId + (start > 0 ? '?start=' + start : ''))
                 .attr('width', '640').attr('height', '360');
         }
         else if (igMatch && igMatch[0].length) {
@@ -7029,7 +7044,7 @@ var HelpDialog = /** @class */ (function () {
         var $container = this.options.dialogsInBody ? this.$body : this.$editor;
         var body = [
             '<p class="text-center">',
-            '<a href="http://summernote.org/" target="_blank">Summernote 0.8.10-hs.0</a> · ',
+            '<a href="http://summernote.org/" target="_blank">Summernote 0.8.11-hs.0</a> · ',
             '<a href="https://github.com/summernote/summernote" target="_blank">Project</a> · ',
             '<a href="https://github.com/summernote/summernote/issues" target="_blank">Issues</a>',
             '</p>'
@@ -7190,9 +7205,9 @@ var HintPopover = /** @class */ (function () {
         }).render().appendTo(this.options.container);
         this.$popover.hide();
         this.$content = this.$popover.find('.popover-content,.note-popover-content');
-        this.$content.on('click', '.note-hint-item', function () {
+        this.$content.on('click', '.note-hint-item', function (e) {
             _this.$content.find('.active').removeClass('active');
-            $$1(_this).addClass('active');
+            $$1(e.currentTarget).addClass('active');
             _this.replace();
         });
     };
@@ -7589,7 +7604,7 @@ $$1.fn.extend({
 });
 
 $$1.summernote = $$1.extend($$1.summernote, {
-    version: '0.8.10-hs.0',
+    version: '0.8.11-hs.0',
     ui: ui,
     plugins: {},
     options: {
@@ -7717,7 +7732,8 @@ $$1.summernote = $$1.extend($$1.summernote, {
             onKeyup: null,
             onKeydown: null,
             onImageUpload: null,
-            onImageUploadError: null
+            onImageUploadError: null,
+            onImageLinkInsert: null
         },
         codemirror: {
             mode: 'text/html',

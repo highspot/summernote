@@ -1,11 +1,11 @@
 /**
- * Super simple wysiwyg editor v0.8.10-hs.0
+ * Super simple wysiwyg editor v0.8.11-hs.0
  * https://summernote.org
  *
  * Copyright 2013- Alan Hong. and other contributors
  * summernote may be freely distributed under the MIT license.
  *
- * Date: 2018-08-07T17:29Z
+ * Date: 2018-08-07T17:34Z
  */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('jquery')) :
@@ -1708,248 +1708,6 @@ var dom = {
     isCustomStyleTag: isCustomStyleTag
 };
 
-$$1.summernote = $$1.summernote || {
-    lang: {}
-};
-$$1.extend($$1.summernote.lang, {
-    'en-US': {
-        font: {
-            bold: 'Bold',
-            italic: 'Italic',
-            underline: 'Underline',
-            clear: 'Remove Font Style',
-            height: 'Line Height',
-            name: 'Font Family',
-            strikethrough: 'Strikethrough',
-            subscript: 'Subscript',
-            superscript: 'Superscript',
-            size: 'Font Size'
-        },
-        image: {
-            image: 'Picture',
-            insert: 'Insert Image',
-            resizeFull: 'Resize Full',
-            resizeHalf: 'Resize Half',
-            resizeQuarter: 'Resize Quarter',
-            floatLeft: 'Float Left',
-            floatRight: 'Float Right',
-            floatNone: 'Float None',
-            shapeRounded: 'Shape: Rounded',
-            shapeCircle: 'Shape: Circle',
-            shapeThumbnail: 'Shape: Thumbnail',
-            shapeNone: 'Shape: None',
-            dragImageHere: 'Drag image or text here',
-            dropImage: 'Drop image or Text',
-            selectFromFiles: 'Select from files',
-            maximumFileSize: 'Maximum file size',
-            maximumFileSizeError: 'Maximum file size exceeded.',
-            url: 'Image URL',
-            remove: 'Remove Image',
-            original: 'Original'
-        },
-        video: {
-            video: 'Video',
-            videoLink: 'Video Link',
-            insert: 'Insert Video',
-            url: 'Video URL',
-            providers: '(YouTube, Vimeo, Vine, Instagram, DailyMotion or Youku)'
-        },
-        link: {
-            link: 'Link',
-            insert: 'Insert Link',
-            unlink: 'Unlink',
-            edit: 'Edit',
-            textToDisplay: 'Text to display',
-            url: 'To what URL should this link go?',
-            openInNewWindow: 'Open in new window'
-        },
-        table: {
-            table: 'Table',
-            addRowAbove: 'Add row above',
-            addRowBelow: 'Add row below',
-            addColLeft: 'Add column left',
-            addColRight: 'Add column right',
-            delRow: 'Delete row',
-            delCol: 'Delete column',
-            delTable: 'Delete table'
-        },
-        hr: {
-            insert: 'Insert Horizontal Rule'
-        },
-        style: {
-            style: 'Style',
-            p: 'Normal',
-            blockquote: 'Quote',
-            pre: 'Code',
-            h1: 'Header 1',
-            h2: 'Header 2',
-            h3: 'Header 3',
-            h4: 'Header 4',
-            h5: 'Header 5',
-            h6: 'Header 6'
-        },
-        lists: {
-            unordered: 'Unordered list',
-            ordered: 'Ordered list'
-        },
-        options: {
-            help: 'Help',
-            fullscreen: 'Full Screen',
-            codeview: 'Code View'
-        },
-        paragraph: {
-            paragraph: 'Paragraph',
-            outdent: 'Outdent',
-            indent: 'Indent',
-            left: 'Align left',
-            center: 'Align center',
-            right: 'Align right',
-            justify: 'Justify full'
-        },
-        color: {
-            recent: 'Recent Color',
-            more: 'More Color',
-            background: 'Background Color',
-            foreground: 'Foreground Color',
-            transparent: 'Transparent',
-            setTransparent: 'Set transparent',
-            reset: 'Reset',
-            resetToDefault: 'Reset to default'
-        },
-        shortcut: {
-            shortcuts: 'Keyboard shortcuts',
-            close: 'Close',
-            textFormatting: 'Text formatting',
-            action: 'Action',
-            paragraphFormatting: 'Paragraph formatting',
-            documentStyle: 'Document Style',
-            extraKeys: 'Extra keys'
-        },
-        help: {
-            'insertParagraph': 'Insert Paragraph',
-            'undo': 'Undoes the last command',
-            'redo': 'Redoes the last command',
-            'tab': 'Tab',
-            'untab': 'Untab',
-            'bold': 'Set a bold style',
-            'italic': 'Set a italic style',
-            'underline': 'Set a underline style',
-            'strikethrough': 'Set a strikethrough style',
-            'removeFormat': 'Clean a style',
-            'justifyLeft': 'Set left align',
-            'justifyCenter': 'Set center align',
-            'justifyRight': 'Set right align',
-            'justifyFull': 'Set full align',
-            'insertUnorderedList': 'Toggle unordered list',
-            'insertOrderedList': 'Toggle ordered list',
-            'outdent': 'Outdent on current paragraph',
-            'indent': 'Indent on current paragraph',
-            'formatPara': 'Change current block\'s format as a paragraph(P tag)',
-            'formatH1': 'Change current block\'s format as H1',
-            'formatH2': 'Change current block\'s format as H2',
-            'formatH3': 'Change current block\'s format as H3',
-            'formatH4': 'Change current block\'s format as H4',
-            'formatH5': 'Change current block\'s format as H5',
-            'formatH6': 'Change current block\'s format as H6',
-            'insertHorizontalRule': 'Insert horizontal rule',
-            'linkDialog.show': 'Show Link Dialog'
-        },
-        history: {
-            undo: 'Undo',
-            redo: 'Redo'
-        },
-        specialChar: {
-            specialChar: 'SPECIAL CHARACTERS',
-            select: 'Select Special characters'
-        }
-    }
-});
-
-var KEY_MAP = {
-    'BACKSPACE': 8,
-    'TAB': 9,
-    'ENTER': 13,
-    'SPACE': 32,
-    'DELETE': 46,
-    // Arrow
-    'LEFT': 37,
-    'UP': 38,
-    'RIGHT': 39,
-    'DOWN': 40,
-    // Number: 0-9
-    'NUM0': 48,
-    'NUM1': 49,
-    'NUM2': 50,
-    'NUM3': 51,
-    'NUM4': 52,
-    'NUM5': 53,
-    'NUM6': 54,
-    'NUM7': 55,
-    'NUM8': 56,
-    // Alphabet: a-z
-    'B': 66,
-    'E': 69,
-    'I': 73,
-    'J': 74,
-    'K': 75,
-    'L': 76,
-    'R': 82,
-    'S': 83,
-    'U': 85,
-    'V': 86,
-    'Y': 89,
-    'Z': 90,
-    'SLASH': 191,
-    'LEFTBRACKET': 219,
-    'BACKSLASH': 220,
-    'RIGHTBRACKET': 221
-};
-/**
- * @class core.key
- *
- * Object for keycodes.
- *
- * @singleton
- * @alternateClassName key
- */
-var key = {
-    /**
-     * @method isEdit
-     *
-     * @param {Number} keyCode
-     * @return {Boolean}
-     */
-    isEdit: function (keyCode) {
-        return lists.contains([
-            KEY_MAP.BACKSPACE,
-            KEY_MAP.TAB,
-            KEY_MAP.ENTER,
-            KEY_MAP.SPACE,
-            KEY_MAP.DELETE
-        ], keyCode);
-    },
-    /**
-     * @method isMove
-     *
-     * @param {Number} keyCode
-     * @return {Boolean}
-     */
-    isMove: function (keyCode) {
-        return lists.contains([
-            KEY_MAP.LEFT,
-            KEY_MAP.UP,
-            KEY_MAP.RIGHT,
-            KEY_MAP.DOWN
-        ], keyCode);
-    },
-    /**
-     * @property {Object} nameFromCode
-     * @property {String} nameFromCode.8 "BACKSPACE"
-     */
-    nameFromCode: func.invertObject(KEY_MAP),
-    code: KEY_MAP
-};
-
 /**
  * return boundaryPoint from TextRange, inspired by Andy Na's HuskyRange.js
  *
@@ -2395,9 +2153,16 @@ var WrappedRange = /** @class */ (function () {
         var contentsContainer = $$1('<div></div>').html(markup)[0];
         var childNodes = lists.from(contentsContainer.childNodes);
         var rng = this.wrapBodyInlineWithPara().deleteContents();
-        return childNodes.reverse().map(function (childNode) {
+        if (rng.so > 0) {
+            childNodes = childNodes.reverse();
+        }
+        childNodes = childNodes.map(function (childNode) {
             return rng.insertNode(childNode);
-        }).reverse();
+        });
+        if (rng.so > 0) {
+            childNodes = childNodes.reverse();
+        }
+        return childNodes;
     };
     /**
      * returns text in range
@@ -2625,6 +2390,248 @@ var range = {
         var ec = dom.fromOffsetPath(lists.last(paras), bookmark.e.path);
         return new WrappedRange(sc, so, ec, eo);
     }
+};
+
+$$1.summernote = $$1.summernote || {
+    lang: {}
+};
+$$1.extend($$1.summernote.lang, {
+    'en-US': {
+        font: {
+            bold: 'Bold',
+            italic: 'Italic',
+            underline: 'Underline',
+            clear: 'Remove Font Style',
+            height: 'Line Height',
+            name: 'Font Family',
+            strikethrough: 'Strikethrough',
+            subscript: 'Subscript',
+            superscript: 'Superscript',
+            size: 'Font Size'
+        },
+        image: {
+            image: 'Picture',
+            insert: 'Insert Image',
+            resizeFull: 'Resize Full',
+            resizeHalf: 'Resize Half',
+            resizeQuarter: 'Resize Quarter',
+            floatLeft: 'Float Left',
+            floatRight: 'Float Right',
+            floatNone: 'Float None',
+            shapeRounded: 'Shape: Rounded',
+            shapeCircle: 'Shape: Circle',
+            shapeThumbnail: 'Shape: Thumbnail',
+            shapeNone: 'Shape: None',
+            dragImageHere: 'Drag image or text here',
+            dropImage: 'Drop image or Text',
+            selectFromFiles: 'Select from files',
+            maximumFileSize: 'Maximum file size',
+            maximumFileSizeError: 'Maximum file size exceeded.',
+            url: 'Image URL',
+            remove: 'Remove Image',
+            original: 'Original'
+        },
+        video: {
+            video: 'Video',
+            videoLink: 'Video Link',
+            insert: 'Insert Video',
+            url: 'Video URL',
+            providers: '(YouTube, Vimeo, Vine, Instagram, DailyMotion or Youku)'
+        },
+        link: {
+            link: 'Link',
+            insert: 'Insert Link',
+            unlink: 'Unlink',
+            edit: 'Edit',
+            textToDisplay: 'Text to display',
+            url: 'To what URL should this link go?',
+            openInNewWindow: 'Open in new window'
+        },
+        table: {
+            table: 'Table',
+            addRowAbove: 'Add row above',
+            addRowBelow: 'Add row below',
+            addColLeft: 'Add column left',
+            addColRight: 'Add column right',
+            delRow: 'Delete row',
+            delCol: 'Delete column',
+            delTable: 'Delete table'
+        },
+        hr: {
+            insert: 'Insert Horizontal Rule'
+        },
+        style: {
+            style: 'Style',
+            p: 'Normal',
+            blockquote: 'Quote',
+            pre: 'Code',
+            h1: 'Header 1',
+            h2: 'Header 2',
+            h3: 'Header 3',
+            h4: 'Header 4',
+            h5: 'Header 5',
+            h6: 'Header 6'
+        },
+        lists: {
+            unordered: 'Unordered list',
+            ordered: 'Ordered list'
+        },
+        options: {
+            help: 'Help',
+            fullscreen: 'Full Screen',
+            codeview: 'Code View'
+        },
+        paragraph: {
+            paragraph: 'Paragraph',
+            outdent: 'Outdent',
+            indent: 'Indent',
+            left: 'Align left',
+            center: 'Align center',
+            right: 'Align right',
+            justify: 'Justify full'
+        },
+        color: {
+            recent: 'Recent Color',
+            more: 'More Color',
+            background: 'Background Color',
+            foreground: 'Foreground Color',
+            transparent: 'Transparent',
+            setTransparent: 'Set transparent',
+            reset: 'Reset',
+            resetToDefault: 'Reset to default'
+        },
+        shortcut: {
+            shortcuts: 'Keyboard shortcuts',
+            close: 'Close',
+            textFormatting: 'Text formatting',
+            action: 'Action',
+            paragraphFormatting: 'Paragraph formatting',
+            documentStyle: 'Document Style',
+            extraKeys: 'Extra keys'
+        },
+        help: {
+            'insertParagraph': 'Insert Paragraph',
+            'undo': 'Undoes the last command',
+            'redo': 'Redoes the last command',
+            'tab': 'Tab',
+            'untab': 'Untab',
+            'bold': 'Set a bold style',
+            'italic': 'Set a italic style',
+            'underline': 'Set a underline style',
+            'strikethrough': 'Set a strikethrough style',
+            'removeFormat': 'Clean a style',
+            'justifyLeft': 'Set left align',
+            'justifyCenter': 'Set center align',
+            'justifyRight': 'Set right align',
+            'justifyFull': 'Set full align',
+            'insertUnorderedList': 'Toggle unordered list',
+            'insertOrderedList': 'Toggle ordered list',
+            'outdent': 'Outdent on current paragraph',
+            'indent': 'Indent on current paragraph',
+            'formatPara': 'Change current block\'s format as a paragraph(P tag)',
+            'formatH1': 'Change current block\'s format as H1',
+            'formatH2': 'Change current block\'s format as H2',
+            'formatH3': 'Change current block\'s format as H3',
+            'formatH4': 'Change current block\'s format as H4',
+            'formatH5': 'Change current block\'s format as H5',
+            'formatH6': 'Change current block\'s format as H6',
+            'insertHorizontalRule': 'Insert horizontal rule',
+            'linkDialog.show': 'Show Link Dialog'
+        },
+        history: {
+            undo: 'Undo',
+            redo: 'Redo'
+        },
+        specialChar: {
+            specialChar: 'SPECIAL CHARACTERS',
+            select: 'Select Special characters'
+        }
+    }
+});
+
+var KEY_MAP = {
+    'BACKSPACE': 8,
+    'TAB': 9,
+    'ENTER': 13,
+    'SPACE': 32,
+    'DELETE': 46,
+    // Arrow
+    'LEFT': 37,
+    'UP': 38,
+    'RIGHT': 39,
+    'DOWN': 40,
+    // Number: 0-9
+    'NUM0': 48,
+    'NUM1': 49,
+    'NUM2': 50,
+    'NUM3': 51,
+    'NUM4': 52,
+    'NUM5': 53,
+    'NUM6': 54,
+    'NUM7': 55,
+    'NUM8': 56,
+    // Alphabet: a-z
+    'B': 66,
+    'E': 69,
+    'I': 73,
+    'J': 74,
+    'K': 75,
+    'L': 76,
+    'R': 82,
+    'S': 83,
+    'U': 85,
+    'V': 86,
+    'Y': 89,
+    'Z': 90,
+    'SLASH': 191,
+    'LEFTBRACKET': 219,
+    'BACKSLASH': 220,
+    'RIGHTBRACKET': 221
+};
+/**
+ * @class core.key
+ *
+ * Object for keycodes.
+ *
+ * @singleton
+ * @alternateClassName key
+ */
+var key = {
+    /**
+     * @method isEdit
+     *
+     * @param {Number} keyCode
+     * @return {Boolean}
+     */
+    isEdit: function (keyCode) {
+        return lists.contains([
+            KEY_MAP.BACKSPACE,
+            KEY_MAP.TAB,
+            KEY_MAP.ENTER,
+            KEY_MAP.SPACE,
+            KEY_MAP.DELETE
+        ], keyCode);
+    },
+    /**
+     * @method isMove
+     *
+     * @param {Number} keyCode
+     * @return {Boolean}
+     */
+    isMove: function (keyCode) {
+        return lists.contains([
+            KEY_MAP.LEFT,
+            KEY_MAP.UP,
+            KEY_MAP.RIGHT,
+            KEY_MAP.DOWN
+        ], keyCode);
+    },
+    /**
+     * @property {Object} nameFromCode
+     * @property {String} nameFromCode.8 "BACKSPACE"
+     */
+    nameFromCode: func.invertObject(KEY_MAP),
+    code: KEY_MAP
 };
 
 /**
@@ -4257,7 +4264,7 @@ var Editor = /** @class */ (function () {
      * insertImages
      * @param {File[]} files
      */
-    Editor.prototype.insertImages = function (files) {
+    Editor.prototype.insertImagesAsDataURL = function (files) {
         var _this = this;
         $$1.each(files, function (idx, file) {
             var filename = file.name;
@@ -4272,21 +4279,6 @@ var Editor = /** @class */ (function () {
                 });
             }
         });
-    };
-    /**
-     * insertImagesOrCallback
-     * @param {File[]} files
-     */
-    Editor.prototype.insertImagesOrCallback = function (files) {
-        var callbacks = this.options.callbacks;
-        // If onImageUpload this.options setted
-        if (callbacks.onImageUpload) {
-            this.context.triggerEvent('image.upload', files);
-            // else insert Image as dataURL
-        }
-        else {
-            this.insertImages(files);
-        }
     };
     /**
      * return selected plain text
@@ -6154,10 +6146,23 @@ var ImageDialog = /** @class */ (function () {
             _this.ui.hideDialog(_this.$dialog);
             _this.context.invoke('editor.restoreRange');
             if (typeof data === 'string') { // image url
-                _this.context.invoke('editor.insertImage', data);
+                // If onImageLinkInsert set,
+                if (_this.options.callbacks.onImageLinkInsert) {
+                    _this.context.triggerEvent('image.link.insert', data);
+                }
+                else {
+                    _this.context.invoke('editor.insertImage', data);
+                }
             }
             else { // array of files
-                _this.context.invoke('editor.insertImagesOrCallback', data);
+                // If onImageUpload set,
+                if (_this.options.callbacks.onImageUpload) {
+                    _this.context.triggerEvent('image.upload', data);
+                }
+                else {
+                    // else insert Image as dataURL
+                    _this.context.invoke('editor.insertImagesAsDataURL', data);
+                }
             }
         }).fail(function () {
             _this.context.invoke('editor.restoreRange');
@@ -6358,7 +6363,8 @@ var VideoDialog = /** @class */ (function () {
     };
     VideoDialog.prototype.createVideoNode = function (url) {
         // video url patterns(youtube, instagram, vimeo, dailymotion, youku, mp4, ogg, webm)
-        var ytRegExp = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+        var ytRegExp = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w|-]{11})(?:(?:[\?&]t=)(\S+))?$/;
+        var ytRegExpForStart = /^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?$/;
         var ytMatch = url.match(ytRegExp);
         var igRegExp = /(?:www\.|\/\/)instagram\.com\/p\/(.[a-zA-Z0-9_-]*)/;
         var igMatch = url.match(igRegExp);
@@ -6383,9 +6389,18 @@ var VideoDialog = /** @class */ (function () {
         var $video;
         if (ytMatch && ytMatch[1].length === 11) {
             var youtubeId = ytMatch[1];
+            var start = 0;
+            if (typeof ytMatch[2] !== 'undefined') {
+                var ytMatchForStart = ytMatch[2].match(ytRegExpForStart);
+                if (ytMatchForStart) {
+                    for (var n = [3600, 60, 1], i = 0, r = n.length; i < r; i++) {
+                        start += (typeof ytMatchForStart[i + 1] !== 'undefined' ? n[i] * parseInt(ytMatchForStart[i + 1], 10) : 0);
+                    }
+                }
+            }
             $video = $$1('<iframe>')
                 .attr('frameborder', 0)
-                .attr('src', '//www.youtube.com/embed/' + youtubeId)
+                .attr('src', '//www.youtube.com/embed/' + youtubeId + (start > 0 ? '?start=' + start : ''))
                 .attr('width', '640').attr('height', '360');
         }
         else if (igMatch && igMatch[0].length) {
@@ -6511,7 +6526,7 @@ var HelpDialog = /** @class */ (function () {
         var $container = this.options.dialogsInBody ? this.$body : this.$editor;
         var body = [
             '<p class="text-center">',
-            '<a href="http://summernote.org/" target="_blank">Summernote 0.8.10-hs.0</a> · ',
+            '<a href="http://summernote.org/" target="_blank">Summernote 0.8.11-hs.0</a> · ',
             '<a href="https://github.com/summernote/summernote" target="_blank">Project</a> · ',
             '<a href="https://github.com/summernote/summernote/issues" target="_blank">Issues</a>',
             '</p>'
@@ -6672,9 +6687,9 @@ var HintPopover = /** @class */ (function () {
         }).render().appendTo(this.options.container);
         this.$popover.hide();
         this.$content = this.$popover.find('.popover-content,.note-popover-content');
-        this.$content.on('click', '.note-hint-item', function () {
+        this.$content.on('click', '.note-hint-item', function (e) {
             _this.$content.find('.active').removeClass('active');
-            $$1(_this).addClass('active');
+            $$1(e.currentTarget).addClass('active');
             _this.replace();
         });
     };
@@ -7071,9 +7086,10 @@ $$1.fn.extend({
 });
 
 $$1.summernote = $$1.extend($$1.summernote, {
-    version: '0.8.10-hs.0',
+    version: '0.8.11-hs.0',
     ui: ui,
     dom: dom,
+    range: range,
     plugins: {},
     options: {
         modules: {
@@ -7204,7 +7220,8 @@ $$1.summernote = $$1.extend($$1.summernote, {
             onKeyup: null,
             onKeydown: null,
             onImageUpload: null,
-            onImageUploadError: null
+            onImageUploadError: null,
+            onImageLinkInsert: null
         },
         codemirror: {
             mode: 'text/html',
