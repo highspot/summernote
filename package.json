@@ -1,7 +1,7 @@
 {
   "name": "summernote",
   "description": "Super simple WYSIWYG editor",
-  "version": "0.8.10",
+  "version": "0.8.10-hs.0",
   "license": "MIT",
   "keywords": [
     "editor",
@@ -83,5 +83,8 @@
     "rollup-plugin-typescript": "^0.8.1",
     "serve-static": "^1.13.1",
     "typescript": "^2.6.2"
+  },
+  "dependencies": {
+    "svg-pathdata": "^5.0.2"
   }
 }
