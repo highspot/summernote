@@ -5,7 +5,7 @@
  * Copyright 2013- Alan Hong. and other contributors
  * summernote may be freely distributed under the MIT license.
  *
- * Date: 2018-08-07T17:34Z
+ * Date: 2018-08-17T23:02Z
  */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('jquery')) :
@@ -2939,7 +2939,7 @@ var Bullet = /** @class */ (function () {
         $$1.each(clustereds, function (idx, paras) {
             var head = lists.head(paras);
             if (dom.isLi(head)) {
-                _this.wrapList(paras, head.parentNode.nodeName);
+                _this.wrapList(paras, head.parentNode.nodeName, dom.isList(head.parentNode) && (dom.isLi(head.previousSibling) ? head.previousSibling : head.parentNode));
             }
             else {
                 $$1.each(paras, function (idx, para) {
@@ -3017,12 +3017,25 @@ var Bullet = /** @class */ (function () {
      * @param {String} listName
      * @return {Node[]}
      */
-    Bullet.prototype.wrapList = function (paras, listName) {
+    Bullet.prototype.wrapList = function (paras, listName, appendToNode) {
         var head = lists.head(paras);
         var last = lists.last(paras);
         var prevList = dom.isList(head.previousSibling) && head.previousSibling;
         var nextList = dom.isList(last.nextSibling) && last.nextSibling;
-        var listNode = prevList || dom.insertAfter(dom.create(listName || 'UL'), last);
+        var listNode = prevList;
+        if (!listNode) {
+            var newList = dom.create(listName || 'UL');
+            if (appendToNode) {
+                dom.appendChildNodes(appendToNode, [newList]);
+                listNode = newList;
+                if (dom.isList(appendToNode)) {
+                    dom.wrap(newList, 'LI');
+                }
+            }
+            else {
+                listNode = dom.insertAfter(newList, last);
+            }
+        }
         // P to LI
         paras = paras.map(function (para) {
             return dom.isPurePara(para) ? dom.replace(para, 'LI') : para;
@@ -3047,7 +3060,7 @@ var Bullet = /** @class */ (function () {
         $$1.each(clustereds, function (idx, paras) {
             var head = lists.head(paras);
             var last = lists.last(paras);
-            var headList = isEscapseToBody ? dom.lastAncestor(head, dom.isList) : head.parentNode;
+            var headList = isEscapseToBody ? dom.lastAncestor(head, dom.isList) : dom.ancestor(head.parentNode, dom.isList);
             var lastList = headList.childNodes.length > 1 ? dom.splitTree(headList, {
                 node: last.parentNode,
                 offset: dom.position(last) + 1
@@ -3062,14 +3075,18 @@ var Bullet = /** @class */ (function () {
             });
             paras = isEscapseToBody ? dom.listDescendant(middleList, dom.isLi)
                 : lists.from(middleList.childNodes).filter(dom.isLi);
+            var targetNode = headList;
             // LI to P
-            if (isEscapseToBody || !dom.isList(headList.parentNode)) {
+            if (isEscapseToBody || !(dom.isList(headList.parentNode) || dom.isLi(headList.parentNode))) {
                 paras = paras.map(function (para) {
                     return dom.replace(para, 'P');
                 });
             }
+            else {
+                targetNode = headList.parentNode;
+            }
             $$1.each(lists.from(paras).reverse(), function (idx, para) {
-                dom.insertAfter(para, headList);
+                dom.insertAfter(para, targetNode);
             });
             // remove empty lists
             var rootLists = lists.compact([headList, middleList, lastList]);
@@ -3077,7 +3094,17 @@ var Bullet = /** @class */ (function () {
                 var listNodes = [rootList].concat(dom.listDescendant(rootList, dom.isList));
                 $$1.each(listNodes.reverse(), function (idx, listNode) {
                     if (!dom.nodeLength(listNode)) {
-                        dom.remove(listNode, true);
+                        if (listNode.parentNode && listNode.parentNode.childNodes.length === 1) {
+                            if (listNode.parentNode.parentNode && listNode.parentNode.parentNode.childNodes.length === 1) {
+                                dom.remove(listNode.parentNode.parentNode, true);
+                            }
+                            else {
+                                dom.remove(listNode.parentNode, true);
+                            }
+                        }
+                        else {
+                            dom.remove(listNode, true);
+                        }
                     }
                 });
             });
