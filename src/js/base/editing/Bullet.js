@@ -31,7 +31,8 @@ export default class Bullet {
     $.each(clustereds, (idx, paras) => {
       const head = lists.head(paras);
       if (dom.isLi(head)) {
-        this.wrapList(paras, head.parentNode.nodeName);
+        this.wrapList(paras, head.parentNode.nodeName,
+          dom.isList(head.parentNode) && (dom.isLi(head.previousSibling) ? head.previousSibling : head.parentNode));
       } else {
         $.each(paras, (idx, para) => {
           $(para).css('marginLeft', (idx, val) => {
@@ -114,14 +115,26 @@ export default class Bullet {
    * @param {String} listName
    * @return {Node[]}
    */
-  wrapList(paras, listName) {
+  wrapList(paras, listName, appendToNode) {
     const head = lists.head(paras);
     const last = lists.last(paras);
 
     const prevList = dom.isList(head.previousSibling) && head.previousSibling;
     const nextList = dom.isList(last.nextSibling) && last.nextSibling;
 
-    const listNode = prevList || dom.insertAfter(dom.create(listName || 'UL'), last);
+    let listNode = prevList;
+    if (!listNode) {
+      const newList = dom.create(listName || 'UL');
+      if (appendToNode) {
+        dom.appendChildNodes(appendToNode, [newList]);
+        listNode = newList;
+        if (dom.isList(appendToNode)) {
+          dom.wrap(newList, 'LI');
+        }
+      } else {
+        listNode = dom.insertAfter(newList, last);
+      }
+    }
 
     // P to LI
     paras = paras.map((para) => {
@@ -153,7 +166,7 @@ export default class Bullet {
       const head = lists.head(paras);
       const last = lists.last(paras);
 
-      const headList = isEscapseToBody ? dom.lastAncestor(head, dom.isList) : head.parentNode;
+      const headList = isEscapseToBody ? dom.lastAncestor(head, dom.isList) : dom.ancestor(head.parentNode, dom.isList);
       const lastList = headList.childNodes.length > 1 ? dom.splitTree(headList, {
         node: last.parentNode,
         offset: dom.position(last) + 1
@@ -171,15 +184,18 @@ export default class Bullet {
       paras = isEscapseToBody ? dom.listDescendant(middleList, dom.isLi)
         : lists.from(middleList.childNodes).filter(dom.isLi);
 
+      let targetNode = headList;
       // LI to P
-      if (isEscapseToBody || !dom.isList(headList.parentNode)) {
+      if (isEscapseToBody || !(dom.isList(headList.parentNode) || dom.isLi(headList.parentNode))) {
         paras = paras.map((para) => {
           return dom.replace(para, 'P');
         });
+      } else {
+        targetNode = headList.parentNode;
       }
 
       $.each(lists.from(paras).reverse(), (idx, para) => {
-        dom.insertAfter(para, headList);
+        dom.insertAfter(para, targetNode);
       });
 
       // remove empty lists
@@ -188,7 +204,15 @@ export default class Bullet {
         const listNodes = [rootList].concat(dom.listDescendant(rootList, dom.isList));
         $.each(listNodes.reverse(), (idx, listNode) => {
           if (!dom.nodeLength(listNode)) {
-            dom.remove(listNode, true);
+            if (listNode.parentNode && listNode.parentNode.childNodes.length === 1) {
+              if (listNode.parentNode.parentNode && listNode.parentNode.parentNode.childNodes.length === 1) {
+                dom.remove(listNode.parentNode.parentNode, true);
+              } else {
+                dom.remove(listNode.parentNode, true);
+              }
+            } else {
+              dom.remove(listNode, true);
+            }
           }
         });
       });
