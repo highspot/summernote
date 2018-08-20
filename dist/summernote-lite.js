@@ -5,7 +5,7 @@
  * Copyright 2013- Alan Hong. and other contributors
  * summernote may be freely distributed under the MIT license.
  *
- * Date: 2018-08-17T23:02Z
+ * Date: 2018-08-20T16:23Z
  */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('jquery')) :
@@ -194,7 +194,8 @@ var DropdownUI = /** @class */ (function () {
         this.$button.removeClass('active');
         this.$button.parent().removeClass('open');
     };
-    DropdownUI.prototype.toggle = function () {
+    DropdownUI.prototype.toggle = function (event) {
+        event.stopPropagation(); // Prevent open from being cancelled
         var isOpened = this.$button.parent().hasClass('open');
         this.clear();
         if (isOpened) {
