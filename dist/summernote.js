@@ -5,7 +5,7 @@
  * Copyright 2013- Alan Hong. and other contributors
  * summernote may be freely distributed under the MIT license.
  *
- * Date: 2018-08-20T16:23Z
+ * Date: 2018-08-20T16:42Z
  */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('jquery')) :
@@ -4276,7 +4276,7 @@ var Editor = /** @class */ (function () {
                 $image.css('width', Math.min(_this.$editable.width(), $image.width()));
             }
             $image.show();
-            range.create(_this.editable).insertNode($image[0]);
+            _this.createRange().insertNode($image[0]);
             range.createFromNodeAfter($image[0]).select();
             _this.afterCommand();
         }).fail(function (e) {
