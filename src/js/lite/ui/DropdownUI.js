@@ -39,7 +39,9 @@ class DropdownUI {
     this.$button.parent().removeClass('open');
   }
 
-  toggle() {
+  toggle(event) {
+    event.stopPropagation(); // Prevent open from being cancelled
+
     var isOpened = this.$button.parent().hasClass('open');
 
     this.clear();
