@@ -121,7 +121,7 @@ const dropdownButton = function(opt, callback) {
       template: opt.template,
       itemClick: opt.itemClick
     })
-  ], { callback: callback }).render();
+  ], { callback: callback, click: opt.click }).render();
 };
 
 const dropdownCheckButton = function(opt, callback) {
