@@ -3,7 +3,7 @@ sudo: false
 node_js: 8
 cache:
   directories:
-    - node_modules
+  - node_modules
 before_install:
 - sudo add-apt-repository ppa:fontforge/fontforge -y
 - sudo apt-get update -q
@@ -11,11 +11,12 @@ before_install:
 before_script:
 - node --version
 - npm --version
-- if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then node test/e2e/static-server.js & fi
+# - if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then node test/e2e/static-server.js & fi
 script:
 - npm run test:travis
-- if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then npm run test:saucelabs; fi
-- if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then npm run test:e2e-saucelabs; fi
+# - if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then npm run test:saucelabs; fi
+# - if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then npm run test:e2e-saucelabs; fi
+- if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then npm run test:e2e; fi
 - if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then pkill node; fi
 before_deploy:
 - npm install
@@ -23,16 +24,12 @@ before_deploy:
 - npm run dist
 deploy:
   provider: npm
-  email: susukang98@gmail.com
+  email: travis-ci@highspot.com
   api_key:
-    secure: TYJfuTLZKbYvTskuMlmuKnQb5F35GFPN2AqSf0RtZYWGLozIaIkKcpTVbjzo859FWuxPjci53FGiJih3+0iVfIC39CDTrFZutubn8qduOfRAVTL1WzeQvdww8miJNwUY59HmoOa78OtbNCVg/N7zFSZzRXAcgje8IADQFIISwk8=
+    secure: hZP5eQ9GH1k4aaX2HbrizHaXNHcNgkq9QygC0XM2h/8RkIlEZ8Zp4TorVQ4qyDXYlNcVNDhp/Isl56oEQxwM0Jt/7TU4YAbwH8dYwMSoAzUHS65r5+y9X6FMTY4gmH2l+tKlD1ow2recq4SKIWYCJHQytDx0dZRLYArjnTzdd/eMr8mZ3aqZvZ0FmhQwfoixcfVG4jb/boUnCW4Gak8RCWWxJNFQSVedJKMcmPxp6MFnzbz76oQAdVWoTPYXbIfno0V8FSEauM6z4enzdzKAK2AJrPRDH0FIcvvQumkHBberjH2xXZfH+5Vyt1gkLNh44SD04aWsMui0z726kQTKhq/HvVwQ83GmXXOL6R0xH7W4b2237ODY8YwreTq3Eo0BTV+az6mnE7TGTygTPptGSLOVXVLMQ/ApHTqkURKbJZobslndVbrfSLHRBOH5e+0GJk1AvHL3BWCp7qTX4QerMvRSK/oxhMSHIt/sjpJDLihjxU1AvQBe/aLtFpZir2smSENQYycADNb1L8g9AgssmeFBktoWI3w1bHVzH1YCIL2JW7bbxNpf0z7ozuN8D3tHmMtinXeAIyOG78as0kmRFVF655NHQeoABb5+ZE2hh6ZbN/ysqotfo9GWpzSdZg1yp/B5FhWtnwgcuP3JdqJ6MF0DF5fcZiDUfTqr8S4EqPQ=
   on:
     tags: true
-    branch: develop
-addons:
-  sauce_connect:
-    username: 'summernoteis'
-    access_key:
-      secure: "E9Mq/lKN1xNA+PungEtlDEYqx5Dm52GPuvRMjZPkv5GiuFjof70CuqOIbqSh5YcDvn6/FmPlmlcZVNcXGzKkkSY9qqFpsbmsu2VXmbHlmpjr0Yhm7LQLoZYj+fmrO3WITai6yEyvb8cjGTjHhTjULDORJgC9U4DLfzju5OQFW0Q="
+    # branch: master
+    tag: publish
 after_success:
-- npm run coveralls
+# - npm run coveralls

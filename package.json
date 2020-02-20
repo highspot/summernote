@@ -1,7 +1,7 @@
 {
-  "name": "summernote",
+  "name": "@highspot/summernote",
   "description": "Super simple WYSIWYG editor",
-  "version": "0.8.11-hs.1",
+  "version": "0.8.11.1",
   "license": "MIT",
   "keywords": [
     "editor",
@@ -11,10 +11,7 @@
     "type": "git",
     "url": "https://github.com/summernote/summernote.git"
   },
-  "author": {
-    "name": "hackerwins",
-    "email": "<susukang98@gmail.com>"
-  },
+  "author": "Highspot",
   "main": "dist/summernote.js",
   "scripts": {
     "build": "grunt build",
@@ -30,6 +27,9 @@
     "test:saucelabs": "grunt saucelabs-test",
     "precommit": "npm run lint",
     "prepush": "npm run lint && npm run test"
+  },
+  "publishConfig": {
+    "registry": "https://npm.hspt.io"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.24.1",
